@@ -1,4 +1,3 @@
-// src/constraints/NotBlankConstraint.ts
 import type { Constraint } from './Constraint'
 
 export class NotBlank implements Constraint<string> {

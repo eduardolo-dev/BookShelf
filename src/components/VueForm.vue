@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import type { Constraint } from '@/constraints/Constraint'
 import ConfirmationModal from './ConfirmationModal.vue'
+import type { Book } from '@/types/book'
 
 export interface Field<T> {
   value: T
@@ -28,7 +29,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  (e: 'submit', values: Record<string, unknown>): void
+  (e: 'submit', values: Record<string, Book | unknown>): void
   (e: 'cancel'): void
 }>()
 
@@ -88,20 +89,20 @@ function submit() {
   <form @submit.prevent="handleSubmit" class="space-y-4">
     <slot :form="form" />
 
-    <div class="flex flex-col lg:flex-row gap-3 pt-4">
-      <button
-        type="submit"
-        :disabled="loading"
-        class="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {{ loading ? 'Saving...' : submitLabel }}
-      </button>
+    <div class="flex gap-5 pt-4 justify-end">
       <button
         type="button"
         @click="handleCancel"
-        class="flex-1 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600"
+        class="text-sm/6 font-semibold text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Cancel
+      </button>
+      <button
+        type="submit"
+        :disabled="loading"
+        class="inline-flex justify-center rounded-md bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ loading ? 'Saving...' : submitLabel }}
       </button>
     </div>
   </form>

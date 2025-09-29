@@ -1,4 +1,3 @@
-// src/constraints/MaxDateConstraint.ts
 import type { Constraint } from './Constraint'
 
 export class MaxDate implements Constraint<string | Date> {

@@ -1,39 +1,109 @@
-# vue-project
+# Bookshelf — Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite.
+A simple Bookshelf app built with Vue 3, TypeScript, Pinia, Vue Router, Vite, and Tailwind CSS. It ships with a mock API powered by `json-server`.
 
-## Recommended IDE Setup
+## Prerequisites
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Node.js**: ^20.19.0 or >=22.12.0 (as defined in `package.json` engines)
+- **npm**: comes with Node.js
 
-## Type Support for `.vue` Imports in TS
+Verify versions:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```bash
+node -v
+npm -v
+```
 
-## Customize configuration
+## Install dependencies
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+## Development
 
-```sh
+Run the frontend dev server (Vite):
+
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+By default Vite serves the app on `http://localhost:5173`.
 
-```sh
+Run the mock API (json-server):
+
+```bash
+npm run mock:api
+```
+
+This serves REST endpoints from `db.json` at `http://localhost:3001`.
+
+You can run both in separate terminals. The app expects the API at `http://localhost:3001` (see `src/services/ApiFacade.ts`).
+
+### Mock API endpoints
+
+- **GET** `/books`
+- **GET** `/books/:id`
+- **POST** `/books`
+- **PUT** `/books/:id`
+- **DELETE** `/books/:id`
+
+Data lives in `db.json`. Changes via the API will be written back to that file.
+
+## Scripts
+
+- `npm run dev`: start Vite dev server
+- `npm run mock:api`: start json-server at `http://localhost:3001` with simulated latency
+- `npm run build`: type-check then build for production
+- `npm run preview`: preview the production build locally
+- `npm run type-check`: run `vue-tsc --build`
+- `npm run lint`: run ESLint with auto-fix
+- `npm run format`: format `src/` with Prettier
+
+## Build
+
+Create a production build:
+
+```bash
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+The output will be in `dist/`.
 
-```sh
-npm run lint
+Preview the build locally:
+
+```bash
+npm run preview
 ```
+
+## Configuration notes
+
+- **API base URL**: currently hardcoded to `http://localhost:3001` in `src/services/ApiFacade.ts`.
+  - If you want to configure it via environment variables, consider using Vite env files (`.env`, `.env.local`) and `import.meta.env` to set a value like `VITE_API_BASE_URL`.
+- **Aliases**: `@` resolves to `src/` (see `vite.config.ts`).
+- **Styling**: Tailwind CSS is enabled via `@tailwindcss/vite`.
+
+## Project structure (high level)
+
+- `src/`
+  - `views/`: route views (list, detail, new, edit)
+  - `components/`: reusable UI components (tables, forms, modals, toast)
+  - `services/`: API facades (`ApiFacade.ts`, `BooksFacade.ts`)
+  - `stores/`: Pinia stores
+  - `router/`: Vue Router setup
+  - `types/`: TypeScript types (e.g., `book.ts`)
+  - `constraints/`: form validation helpers
+  - `utils/`: utilities (debounce, toast)
+- `db.json`: seed data for json-server
+
+## Troubleshooting
+
+- **Port conflicts**:
+  - If `5173` is taken, Vite will prompt to use another port; update any external references if needed.
+  - If `3001` is taken, change the mock API port in `package.json` script `mock:api` and update the base URL in `src/services/ApiFacade.ts`.
+- **CORS issues**: The app requests `http://localhost:3001`. Ensure the mock server is running.
+- **Type errors**: Run `npm run type-check` to see detailed diagnostics.
+
+## License
+
+This project is for educational/demo purposes.

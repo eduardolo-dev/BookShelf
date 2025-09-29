@@ -5,7 +5,7 @@ class ApiFacade {
 
   constructor() {
     this.client = axios.create({
-      baseURL: 'http://localhost:3001', // TODO: change to the correct URL
+      baseURL: 'http://localhost:3001', // Esto sería una variable de entorno
     })
   }
 

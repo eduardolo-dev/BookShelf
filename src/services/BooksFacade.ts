@@ -4,14 +4,13 @@ import type { Book, CreateBook, UpdateBook } from '../types/book'
 export class BooksFacade {
   async getBooks(params?: Record<string, unknown>) {
     const response = await api.get('/books', { params })
-    const data = response.data.data
-    const pages = response.data.pages
-    const total = response.data.items
+    const data = response.data
+    const total = Number(response.headers['x-total-count'])
 
-    return { data, pages, total }
+    return { data, total }
   }
 
-  async getBook(id: number): Promise<Book> {
+  async getBook(id: string): Promise<Book> {
     const response = await api.get(`/books/${id}`)
     return response.data
   }
@@ -21,12 +20,12 @@ export class BooksFacade {
     return response.data
   }
 
-  async editBook(id: number, book: UpdateBook): Promise<Book> {
+  async editBook(id: string, book: UpdateBook): Promise<Book> {
     const response = await api.put(`/books/${id}`, book)
     return response.data
   }
 
-  async deleteBook(id: number): Promise<unknown> {
+  async deleteBook(id: string): Promise<unknown> {
     const response = await api.delete(`/books/${id}`)
     return response.data
   }
