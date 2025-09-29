@@ -91,14 +91,14 @@ async function deleteBook() {
 
   try {
     await BooksFacade.deleteBook(bookToDelete.value.id)
-    toast.success('Libro eliminado correctamente')
+    toast.success('Book deleted successfully')
+    getBooks()
   } catch (err) {
-    console.error('Error al eliminar el libro', err)
-    toast.error('Error al eliminar el libro')
+    console.error('Error deleting book', err)
+    toast.error('Error deleting book')
   } finally {
     showModal.value = false
     bookToDelete.value = null
-    getBooks()
   }
 }
 

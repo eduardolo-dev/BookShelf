@@ -84,10 +84,7 @@ function goNext() {
           >
             <div class="flex justify-items-center gap-2">
               <span>{{ header.label }}</span>
-              <span
-                v-if="header.sortable"
-                class="my-auto w-5 h-5 bg-gray-200 rounded-sm border border-gray-200 mt-0.5 relative"
-              >
+              <span v-if="header.sortable" class="my-auto w-5 h-5 mt-0.5 relative">
                 <ChevronUpIcon
                   v-if="sortOrder === 'asc' && sortKey === header.key"
                   class="size-5 shrink-0 text-gray-400 absolute left-[-1px]"

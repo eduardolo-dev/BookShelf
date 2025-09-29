@@ -44,14 +44,15 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   try {
     if (props.book?.id) {
       await BooksFacade.editBook(props.book.id, values as UpdateBook)
-      toast.success('Libro editado correctamente')
+      toast.success('Book edited successfully')
     } else {
       await BooksFacade.createBook(values as CreateBook)
-      toast.success('Libro creado correctamente')
+      toast.success('Book created successfully')
+      router.back()
     }
   } catch (error) {
-    console.error('Error al guardar el libro:', error)
-    toast.error('La accion no se pudo realizar correctamente')
+    console.error('Error saving changes:', error)
+    toast.error('Error saving changes')
   } finally {
     isLoading.value = false
   }
@@ -62,6 +63,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   <VueForm
     :form-data="formData"
     :loading="isLoading"
+    :needs-confirmation="!!props.book?.id"
     submitLabel="Save"
     @submit="handleSubmit"
     @cancel="router.back"
@@ -78,7 +80,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
               'w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder:text-gray-500 sm:text-sm outline-none focus:ring-0 focus:bg-gray-100',
               form.title.errors?.length ? 'border-red-300' : '',
             ]"
-            placeholder="Ingresa el título del libro"
+            placeholder="Enter the book title"
           />
           <span class="text-red-600 text-sm" v-if="form.title.errors">
             {{ form.title.errors[0] }}
@@ -97,9 +99,9 @@ const handleSubmit = async (values: Record<string, unknown>) => {
               'w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder:text-gray-500 sm:text-sm outline-none focus:ring-0 focus:bg-gray-100',
               form.author.errors?.length ? 'border-red-300' : '',
             ]"
-            placeholder="Ingresa el nombre del autor"
+            placeholder="Enter the author name"
           />
-          <span class="text-red-600 text-sm" v-if="form.title.errors">
+          <span class="text-red-600 text-sm" v-if="form.author.errors">
             {{ form.author.errors[0] }}
           </span>
         </div>
@@ -118,9 +120,9 @@ const handleSubmit = async (values: Record<string, unknown>) => {
               'w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder:text-gray-500 sm:text-sm outline-none focus:ring-0 focus:bg-gray-100',
               form.published.errors?.length ? 'border-red-300' : '',
             ]"
-            placeholder="Ej: 2023"
+            placeholder="e.g. 2023-05-12"
           />
-          <span class="text-red-600 text-sm" v-if="form.title.errors">
+          <span class="text-red-600 text-sm" v-if="form.published.errors">
             {{ form.published.errors[0] }}
           </span>
         </div>
@@ -137,9 +139,9 @@ const handleSubmit = async (values: Record<string, unknown>) => {
               'w-full rounded-md border border-gray-200 bg-gray-50 px-4 py-2.5 text-gray-900 placeholder:text-gray-500 sm:text-sm outline-none focus:ring-0 focus:bg-gray-100',
               form.category.errors?.length ? 'border-red-300' : '',
             ]"
-            placeholder="Ej: Ficción, Ciencia, Historia"
+            placeholder="e.g. Fiction, Science, History"
           />
-          <span class="text-red-600 text-sm" v-if="form.title.errors">
+          <span class="text-red-600 text-sm" v-if="form.category.errors">
             {{ form.category.errors[0] }}
           </span>
         </div>
@@ -158,7 +160,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
           ]"
           placeholder="0"
         />
-        <span class="text-red-600 text-sm" v-if="form.title.errors">
+        <span class="text-red-600 text-sm" v-if="form.stock.errors">
           {{ form.stock.errors[0] }}
         </span>
       </div>
