@@ -20,15 +20,21 @@ npm -v
 npm install
 ```
 
-## Development
+## Environment configuration
 
-Run the frontend dev server (Vite):
+The frontend reads the API base URL from an environment variable:
+
+- `VITE_API_BASE_URL`
+
+Create a local env file from the example and adjust as needed:
 
 ```bash
-npm run dev
+cp .env.example .env
 ```
 
-By default Vite serves the app on `http://localhost:5173`.
+Default value in the example points to the mock API: `http://localhost:3001`.
+
+## Development
 
 Run the mock API (json-server):
 
@@ -38,7 +44,15 @@ npm run mock:api
 
 This serves REST endpoints from `db.json` at `http://localhost:3001`.
 
-You can run both in separate terminals. The app expects the API at `http://localhost:3001` (see `src/services/ApiFacade.ts`).
+Run the frontend dev server (Vite):
+
+```bash
+npm run dev
+```
+
+By default Vite serves the app on `http://localhost:5173`.
+
+You can run both in separate terminals. The app will use the URL configured in `VITE_API_BASE_URL`.
 
 ### Mock API endpoints
 
@@ -78,8 +92,8 @@ npm run preview
 
 ## Configuration notes
 
-- **API base URL**: currently hardcoded to `http://localhost:3001` in `src/services/ApiFacade.ts`.
-  - If you want to configure it via environment variables, consider using Vite env files (`.env`, `.env.local`) and `import.meta.env` to set a value like `VITE_API_BASE_URL`.
+- **API base URL**: set `VITE_API_BASE_URL` (e.g., `http://localhost:3001`).
+  - Use Vite env files (`.env`, `.env.local`) and access via `import.meta.env.VITE_API_BASE_URL`.
 - **Aliases**: `@` resolves to `src/` (see `vite.config.ts`).
 - **Styling**: Tailwind CSS is enabled via `@tailwindcss/vite`.
 
@@ -100,9 +114,9 @@ npm run preview
 
 - **Port conflicts**:
   - If `5173` is taken, Vite will prompt to use another port; update any external references if needed.
-  - If `3001` is taken, change the mock API port in `package.json` script `mock:api` and update the base URL in `src/services/ApiFacade.ts`.
-- **CORS issues**: The app requests `http://localhost:3001`. Ensure the mock server is running.
-- **Type errors**: Run `npm run type-check` to see detailed diagnostics.
+  - If `3001` is taken, change the mock API port in the `mock:api` script and update `VITE_API_BASE_URL`.
+- **CORS issues**: Ensure the mock server is running at the URL configured in `VITE_API_BASE_URL`.
+- **Type errors**: Run `npm run type-check` for diagnostics.
 
 ## License
 

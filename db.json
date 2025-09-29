@@ -39,22 +39,6 @@
       "published": "1968-07-01",
       "category": "Software",
       "stock": 3
-    },
-    {
-      "id": "73",
-      "title": "Test",
-      "author": "Test author",
-      "published": "2023-10-10",
-      "category": "Fiction",
-      "stock": 0
-    },
-    {
-      "id": "3953",
-      "title": "Test2",
-      "author": "testet",
-      "published": "2023-10-12",
-      "category": "kwebfihbrfi",
-      "stock": 2
     }
   ]
 }
